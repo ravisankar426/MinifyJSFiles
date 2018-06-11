@@ -34,9 +34,9 @@ app.get("/",(req,res)=>{
 });
 
 app.post("/minify",(req,res)=>{
-    var sourceFilePaths=[];
     var sourceDir=req.body.sourceDir;
     var destDir=req.body.destDir;
+    var sourceFilePaths=[];
     var filePaths=fc.getFilePaths(sourceDir,sourceFilePaths);
     var statusMessage='';
     console.log('/***********started minifying the files****************/');
@@ -49,9 +49,10 @@ app.post("/minify",(req,res)=>{
         fs.writeFileSync(destFilePath,result.code);
         statusMessage=`${statusMessage} minified the file ${destFilePath}\n`;
         io.sockets.emit('minified',`minified the file ${destFilePath}`);
-        //console.log(`minified the file ${destFilePath}`);
+        console.log(`minified the file ${destFilePath}`);
     };
     console.log('/************completed minifying the files*************/');
+
     res.statusCode=200;
     res.send(statusMessage);
 });

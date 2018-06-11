@@ -19,7 +19,6 @@ socket.on('minify',(path)=>{
 });
 
 socket.on('minified',(message)=>{
-    console.log(message);
     var result=document.getElementById("divResult");
     result.innerHTML+=`<p><strong>${message}</strong></p>`
 });
