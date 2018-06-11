@@ -23,7 +23,8 @@ var io=socket(server);
 
 io.on('connection',(socket)=>{
     socket.on('minify',(path)=>{
-        io.sockets.emit('minify',path);
+        io.sockets.emit('minify',path);   
+        setTimeout(()=>{io.sockets.emit('minify',path);},2000);     
     });
 });
 
