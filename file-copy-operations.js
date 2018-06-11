@@ -19,15 +19,9 @@ var copyDlls=(sourceDir,destDir)=>{
     });
 };
 
-var logPaths=(dir,sourceFilePaths)=>{
-    return new Promise((resolve,reject)=>{
-        try{
-            resolve(getFiles(dir,sourceFilePaths));
-        }
-        catch(e){
-            reject(e);
-        }
-    });
+var getFilePaths=(sourceDir,sourceFilePaths)=>{
+    var filePaths=getFiles(sourceDir,sourceFilePaths);    
+    return filePaths;
 }
 
 var getFiles=(dir,sourceFilePaths)=>{    
@@ -81,6 +75,6 @@ var checkAndCreateDir=(dir)=>{
 
 module.exports={
     copyDlls,
-    logPaths,
-    createDir
+    createDir,
+    getFilePaths
 };
