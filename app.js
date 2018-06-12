@@ -5,8 +5,8 @@ const UglifyJS=require('uglify-js');
 const {config}=require('./config');
 const express=require('express');
 const bodyParser=require('body-parser');
-var socket=require('socket.io');
 const hbs=require('hbs');
+var socket=require('socket.io');
 
 // var sourceDir=config.sourceDir;
 // var destDir=config.destDir;
@@ -17,6 +17,8 @@ app.set('view engine','hbs');
 app.use(express.static(path.join(__dirname,'views')));
 app.use(bodyParser.json());
 
+
+
 var server=app.listen('3000',()=>{
     console.log("App started at port 3000...!!!");
 });
@@ -24,9 +26,13 @@ var server=app.listen('3000',()=>{
 var io=socket(server);
 
 io.on('connection',(socket)=>{
-    socket.on('minify',(path)=>{
-        io.sockets.emit('minify',path);   
-        setTimeout(()=>{io.sockets.emit('minify',path);},2000);     
+    socket.on('minified',(path)=>{
+        io.sockets.emit('minified',`Source: ${path.source} ; Destination: ${path.destination}`);   
+        setTimeout(()=>{io.sockets.emit('minified',`Source: ${path.source} ; Destination: ${path.destination}`);},1000);     
+        setTimeout(()=>{io.sockets.emit('minified',`Source: ${path.source} ; Destination: ${path.destination}`);},1000); 
+        setTimeout(()=>{io.sockets.emit('minified',`Source: ${path.source} ; Destination: ${path.destination}`);},1000); 
+        setTimeout(()=>{io.sockets.emit('minified',`Source: ${path.source} ; Destination: ${path.destination}`);},1000); 
+        setTimeout(()=>{io.sockets.emit('minified',`Source: ${path.source} ; Destination: ${path.destination}`);},1000); 
     });
 });
 
@@ -51,8 +57,8 @@ app.post("/minify",(req,res)=>{
         fc.createDir(destDirName);
         fs.writeFileSync(destFilePath,result.code);
         statusMessage=`${statusMessage} minified the file ${destFilePath}\n`;
-        io.sockets.emit('minified',`minified the file ${destFilePath}`);
         console.log(`minified the file ${destFilePath}`);
+        io.sockets.emit('minified',`minified the file ${destFilePath}`);
     };
     console.log('/************completed minifying the files*************/');
 

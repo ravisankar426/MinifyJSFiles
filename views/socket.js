@@ -1,24 +1,34 @@
-var socket=io.connect('http://localhost:3000');
+var baseUri='http://localhost:3000';
+var socket=io.connect(baseUri);
 
 function emit(){
-    var sourceDir=document.getElementById("txtSourceDir").value;
-    var destDir=document.getElementById("txtDestDir").value;
-    // var sourceDir=config.sourceDir;
-    // var destDir=config.destDir;
+    var source=document.getElementById("txtSourceDir").value;
+    var destination=document.getElementById("txtDestDir").value;
     var paths={
-        source:sourceDir,
-        destination:destDir
+        sourceDir:source,
+        destDir:destination
     }
-    socket.emit('minify',paths);
+    //socket.emit('minified',paths);
+    minifyJsFiles(paths);
 }
-
-socket.on('minify',(path)=>{
-    var result=document.getElementById("divResult");
-    result.innerHTML+=`<p><strong>SourceDir: ${path.source}</strong></p><p><strong>DestDir: ${path.destination}</strong></p>`
-    console.log(path);
-});
 
 socket.on('minified',(message)=>{
     var result=document.getElementById("divResult");
-    result.innerHTML+=`<p><strong>${message}</strong></p>`
+    result.innerHTML+=`<p>${message}</p>`
 });
+
+function minifyJsFiles(paths){
+    $.ajax({
+        type: "POST",
+        url: baseUri+'/minify',
+        data: JSON.stringify(paths),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(data){
+            console.log(data);
+        },
+        failure: function(errMsg) {
+            console.log(errMsg);
+        }
+    });
+}
