@@ -6,13 +6,15 @@ const {config}=require('./config');
 const express=require('express');
 const bodyParser=require('body-parser');
 var socket=require('socket.io');
+const hbs=require('hbs');
 
 // var sourceDir=config.sourceDir;
 // var destDir=config.destDir;
 // var sourceFilePaths=[];
 
 var app=express();
-app.use(express.static(__dirname+'/views'));
+app.set('view engine','hbs');
+app.use(express.static(path.join(__dirname,'views')));
 app.use(bodyParser.json());
 
 var server=app.listen('3000',()=>{
@@ -31,7 +33,7 @@ io.on('connection',(socket)=>{
 
 
 app.get("/",(req,res)=>{
-    res.send('index.html');
+    res.render('index');
 });
 
 app.post("/minify",(req,res)=>{
