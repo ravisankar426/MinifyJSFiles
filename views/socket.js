@@ -12,9 +12,9 @@ function emit(){
     minifyJsFiles(paths);
 }
 
-socket.on('minified',(message)=>{
+socket.on('minified',function(message){
     var result=document.getElementById("divResult");
-    result.innerHTML+=`<p>${message}</p>`
+    result.innerHTML+='<p>'+message+'</p>'
 });
 
 function minifyJsFiles(paths){

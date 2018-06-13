@@ -16,25 +16,29 @@ var app=express();
 app.set('view engine','hbs');
 app.use(express.static(path.join(__dirname,'views')));
 app.use(bodyParser.json());
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 
-
-
-var server=app.listen('3000',()=>{
+var port = process.env.PORT || '3000';
+var server=app.listen(port,()=>{
     console.log("App started at port 3000...!!!");
 });
 
 var io=socket(server);
 
-io.on('connection',(socket)=>{
-    socket.on('minified',(path)=>{
-        io.sockets.emit('minified',`Source: ${path.source} ; Destination: ${path.destination}`);   
-        setTimeout(()=>{io.sockets.emit('minified',`Source: ${path.source} ; Destination: ${path.destination}`);},1000);     
-        setTimeout(()=>{io.sockets.emit('minified',`Source: ${path.source} ; Destination: ${path.destination}`);},1000); 
-        setTimeout(()=>{io.sockets.emit('minified',`Source: ${path.source} ; Destination: ${path.destination}`);},1000); 
-        setTimeout(()=>{io.sockets.emit('minified',`Source: ${path.source} ; Destination: ${path.destination}`);},1000); 
-        setTimeout(()=>{io.sockets.emit('minified',`Source: ${path.source} ; Destination: ${path.destination}`);},1000); 
-    });
-});
+// io.on('connection',(socket)=>{
+//     socket.on('minified',(path)=>{
+//         io.sockets.emit('minified',`Source: ${path.source} ; Destination: ${path.destination}`);   
+//         setTimeout(()=>{io.sockets.emit('minified',`Source: ${path.source} ; Destination: ${path.destination}`);},1000);     
+//         setTimeout(()=>{io.sockets.emit('minified',`Source: ${path.source} ; Destination: ${path.destination}`);},1000); 
+//         setTimeout(()=>{io.sockets.emit('minified',`Source: ${path.source} ; Destination: ${path.destination}`);},1000); 
+//         setTimeout(()=>{io.sockets.emit('minified',`Source: ${path.source} ; Destination: ${path.destination}`);},1000); 
+//         setTimeout(()=>{io.sockets.emit('minified',`Source: ${path.source} ; Destination: ${path.destination}`);},1000); 
+//     });
+// });
 
 
 
